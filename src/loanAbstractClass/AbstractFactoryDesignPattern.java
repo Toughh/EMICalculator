@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.*;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -14,7 +15,9 @@ import bankInterface.Bank;
 public class AbstractFactoryDesignPattern {
 	
 	static JLabel bankSelectLbl, bankLoanLbl, bankRateLbl, bankLoanAmtLbl, tenureLbl;
-	static JTextField bankSelectTxt, bankLoanTxt, bankRateTxt, bankLoanAmtTxt, tenureTxt;
+	static JTextField bankLoanTxt, bankRateTxt, bankLoanAmtTxt, tenureTxt;
+	static String bankSelect[] = {"AXIS", "IDBI", "ICICI", "HDFC", "SBI"};
+	static String loanSelect[] = {"Home", "Education", "Business"};
 	static JButton submitBtn;
 	
 	public static void main(String args[]) throws IOException {
@@ -27,8 +30,9 @@ public class AbstractFactoryDesignPattern {
 		tenureLbl = new JLabel("Tenure: ");
 		submitBtn = new JButton();
 		
-		bankSelectTxt = new JTextField();
-		bankLoanTxt = new JTextField();
+		JComboBox<String> bankSelectTxt = new JComboBox<String>(bankSelect);
+		JComboBox<String> bankLoanTxt = new JComboBox<String>(loanSelect);
+
 		bankRateTxt = new JTextField();
 		bankLoanAmtTxt = new JTextField();
 		tenureTxt = new JTextField();
@@ -70,8 +74,8 @@ public class AbstractFactoryDesignPattern {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				String bank = bankSelectTxt.getText();
-				String loanName = bankLoanTxt.getText();
+				String bank = bankSelectTxt.getItemAt(bankSelectTxt.getSelectedIndex());
+				String loanName = bankLoanTxt.getItemAt(bankLoanTxt.getSelectedIndex());
 				String rateTxt = bankRateTxt.getText();
 				double rate = Double.parseDouble(rateTxt); 
 				String loanTxt = bankLoanAmtTxt.getText();
