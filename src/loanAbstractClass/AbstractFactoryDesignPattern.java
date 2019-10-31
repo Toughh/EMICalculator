@@ -1,5 +1,6 @@
 package loanAbstractClass;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -14,8 +15,8 @@ import bankInterface.Bank;
 
 public class AbstractFactoryDesignPattern {
 	
-	static JLabel bankSelectLbl, bankLoanLbl, bankRateLbl, bankLoanAmtLbl, tenureLbl;
-	static JTextField bankLoanTxt, bankRateTxt, bankLoanAmtTxt, tenureTxt;
+	static JLabel bankSelectLbl, bankLoanLbl, bankRateLbl, bankLoanAmtLbl, tenureLbl, calculatedEMILbl;
+	static JTextField bankRateTxt, bankLoanAmtTxt, tenureTxt;
 	static String bankSelect[] = {"AXIS", "IDBI", "ICICI", "HDFC", "SBI"};
 	static String loanSelect[] = {"Home", "Education", "Business"};
 	static JButton submitBtn;
@@ -29,6 +30,7 @@ public class AbstractFactoryDesignPattern {
 		bankLoanAmtLbl = new JLabel("Loan amount: ");
 		tenureLbl = new JLabel("Tenure: ");
 		submitBtn = new JButton();
+		calculatedEMILbl = new JLabel();
 		
 		JComboBox<String> bankSelectTxt = new JComboBox<String>(bankSelect);
 		JComboBox<String> bankLoanTxt = new JComboBox<String>(loanSelect);
@@ -51,6 +53,8 @@ public class AbstractFactoryDesignPattern {
 		tenureTxt.setBounds(300, 230, 200, 30);
 		
 		submitBtn.setBounds(270, 270, 100, 30);
+		calculatedEMILbl.setBounds(130, 310, 500, 30);
+		calculatedEMILbl.setForeground(Color.MAGENTA);
 		
 		frame.add(bankSelectLbl);
 		frame.add(bankSelectTxt);
@@ -63,6 +67,8 @@ public class AbstractFactoryDesignPattern {
 		frame.add(tenureLbl);
 		frame.add(tenureTxt);
 		frame.add(submitBtn);
+		
+		frame.add(calculatedEMILbl);
 		
 		frame.setSize(1000, 600);
 		frame.setLayout(null);
@@ -89,7 +95,15 @@ public class AbstractFactoryDesignPattern {
 				AbstractFactory loanFactory = FactoryProducer.getAbstractFactory("Loan");  
 		        Loan l=loanFactory.getLoan(loanName);  
 		        l.getInterestRate(rate);  
-		        l.calculateLoanAmount(loanAmount, years);  				
+		        String result = "EMI would be " +l.calculateLoanAmount(loanAmount, years)+ " that need to be paid by "+years+" years.";
+		        calculatedEMILbl.setText(result);
+		        reset();
+			}
+
+			private void reset() {
+				bankRateTxt.setText("");
+		        bankLoanAmtTxt.setText("");
+		        tenureTxt.setText("");				
 			}
 		});
 	}
