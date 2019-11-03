@@ -19,7 +19,14 @@ public class AbstractFactoryDesignPattern {
 	static JTextField bankRateTxt, bankLoanAmtTxt, tenureTxt;
 	static String bankSelect[] = {"AXIS", "IDBI", "ICICI", "HDFC", "SBI"};
 	static String loanSelect[] = {"Home", "Education", "Business"};
-	static JButton submitBtn;
+	static String EMI, TotalInterestPaid; 
+	static JButton submitBtn, resetBtn;
+	
+	private static void reset() {
+		bankRateTxt.setText("");
+        bankLoanAmtTxt.setText("");
+        tenureTxt.setText("");				
+	}
 	
 	public static void main(String args[]) throws IOException {
 		JFrame frame = new JFrame();
@@ -40,6 +47,7 @@ public class AbstractFactoryDesignPattern {
 		bankLoanAmtTxt = new JTextField();
 		tenureTxt = new JTextField();
 		submitBtn = new JButton("Submit");
+		resetBtn = new JButton("Reset");
 		
 		bankSelectLbl.setBounds(80, 70, 200, 30);
 		bankLoanLbl.setBounds(80, 110, 200, 30);
@@ -53,10 +61,11 @@ public class AbstractFactoryDesignPattern {
 		bankLoanAmtTxt.setBounds(300, 190, 200, 30);
 		tenureTxt.setBounds(300, 230, 200, 30);
 		
-		submitBtn.setBounds(270, 270, 100, 30);
-		calculatedEMILbl.setBounds(130, 310, 500, 30);
+		submitBtn.setBounds(230, 290, 100, 30);
+		resetBtn.setBounds(350, 290, 100, 30);
+		calculatedEMILbl.setBounds(130, 330, 500, 30);
 		calculatedEMILbl.setForeground(Color.MAGENTA);
-		totalInterestLbl.setBounds(130, 330, 500, 30);
+		totalInterestLbl.setBounds(130, 350, 500, 30);
 		totalInterestLbl.setForeground(Color.MAGENTA);
 		
 		frame.add(bankSelectLbl);
@@ -70,6 +79,7 @@ public class AbstractFactoryDesignPattern {
 		frame.add(tenureLbl);
 		frame.add(tenureTxt);
 		frame.add(submitBtn);
+		frame.add(resetBtn);
 		
 		frame.add(calculatedEMILbl);
 		frame.add(totalInterestLbl);
@@ -99,17 +109,23 @@ public class AbstractFactoryDesignPattern {
 				AbstractFactory loanFactory = FactoryProducer.getAbstractFactory("Loan");  
 		        Loan l=loanFactory.getLoan(loanName);  
 		        l.getInterestRate(rate);  
-		        String EMI = "EMI would be " +l.calculateLoanAmount(loanAmount, years)+ " that need to be paid by "+years+" years.";
+		        EMI = "EMI would be " +l.calculateLoanAmount(loanAmount, years)+ " that need to be paid by "+years+" years.";
 		        calculatedEMILbl.setText(EMI);
-		        String TotalInterestPaid = "Total Interest Paid: "+l.calculateTotalInterestPayble(loanAmount, years);
+		        TotalInterestPaid = "Total Interest Paid: "+l.calculateTotalInterestPayble(loanAmount, years);
 		        totalInterestLbl.setText(TotalInterestPaid);
 		        reset();
 			}
-
-			private void reset() {
-				bankRateTxt.setText("");
-		        bankLoanAmtTxt.setText("");
-		        tenureTxt.setText("");				
+		});
+		
+		resetBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				reset();
+				if(calculatedEMILbl.isVisible() || totalInterestLbl.isVisible()) {
+					calculatedEMILbl.setText("");
+					totalInterestLbl.setText("");
+				}
 			}
 		});
 	}
