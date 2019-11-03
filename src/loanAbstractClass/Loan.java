@@ -1,7 +1,7 @@
 package loanAbstractClass;
 
 abstract class Loan {
-	double EMI, TotalInterestPay;
+	double EMI, TotalInterestPay, TotalPayment;
 	int n;
 	protected double rate;
 	abstract void getInterestRate(double rate);
@@ -20,5 +20,12 @@ abstract class Loan {
 		TotalInterestPay = ((EMI*n) - loanAmount);
 		
 		return TotalInterestPay;		
+	}
+	
+	public double calculateTotalPayment(double loanAmount) {
+		
+		TotalPayment = (loanAmount + TotalInterestPay);
+		
+		return TotalPayment;
 	}
 }

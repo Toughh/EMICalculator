@@ -15,13 +15,13 @@ import bankInterface.Bank;
 
 public class AbstractFactoryDesignPattern {
 	
-	static JLabel bankSelectLbl, bankLoanLbl, bankRateLbl, bankLoanAmtLbl, tenureLbl, calculatedEMILbl, totalInterestLbl;
+	static JLabel bankSelectLbl, bankLoanLbl, bankRateLbl, bankLoanAmtLbl, tenureLbl, calculatedEMILbl, totalInterestLbl, totalPaymentLbl;
 	static JTextField bankRateTxt, bankLoanAmtTxt, tenureTxt;
 	static String bankSelect[] = {"AXIS", "IDBI", "ICICI", "HDFC", "SBI"};
 	static String loanSelect[] = {"Home", "Education", "Business"};
-	static String EMI, TotalInterestPaid; 
+	static String EMI, TotalInterestPaid, TotalPayment; 
 	static JButton submitBtn, resetBtn;
-	
+
 	private static void reset() {
 		bankRateTxt.setText("");
         bankLoanAmtTxt.setText("");
@@ -39,6 +39,7 @@ public class AbstractFactoryDesignPattern {
 		submitBtn = new JButton();
 		calculatedEMILbl = new JLabel();
 		totalInterestLbl = new JLabel();
+		totalPaymentLbl = new JLabel();
 		
 		JComboBox<String> bankSelectTxt = new JComboBox<String>(bankSelect);
 		JComboBox<String> bankLoanTxt = new JComboBox<String>(loanSelect);
@@ -67,6 +68,8 @@ public class AbstractFactoryDesignPattern {
 		calculatedEMILbl.setForeground(Color.MAGENTA);
 		totalInterestLbl.setBounds(130, 350, 500, 30);
 		totalInterestLbl.setForeground(Color.MAGENTA);
+		totalPaymentLbl.setBounds(130, 370, 500, 30);
+		totalPaymentLbl.setForeground(Color.MAGENTA);
 		
 		frame.add(bankSelectLbl);
 		frame.add(bankSelectTxt);
@@ -83,6 +86,7 @@ public class AbstractFactoryDesignPattern {
 		
 		frame.add(calculatedEMILbl);
 		frame.add(totalInterestLbl);
+		frame.add(totalPaymentLbl);
 		
 		frame.setSize(1000, 600);
 		frame.setLayout(null);
@@ -111,8 +115,12 @@ public class AbstractFactoryDesignPattern {
 		        l.getInterestRate(rate);  
 		        EMI = "EMI would be " +l.calculateLoanAmount(loanAmount, years)+ " that need to be paid by "+years+" years.";
 		        calculatedEMILbl.setText(EMI);
+		        
 		        TotalInterestPaid = "Total Interest Paid: "+l.calculateTotalInterestPayble(loanAmount, years);
 		        totalInterestLbl.setText(TotalInterestPaid);
+		        
+		        TotalPayment = "Total Payment in "+years+" years: "+l.calculateTotalPayment(loanAmount);
+		        totalPaymentLbl.setText(TotalPayment);
 		        reset();
 			}
 		});
@@ -122,9 +130,10 @@ public class AbstractFactoryDesignPattern {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				reset();
-				if(calculatedEMILbl.isVisible() || totalInterestLbl.isVisible()) {
+				if(calculatedEMILbl.isVisible() || totalInterestLbl.isVisible() || totalPaymentLbl.isVisible()) {
 					calculatedEMILbl.setText("");
 					totalInterestLbl.setText("");
+					totalPaymentLbl.setText("");
 				}
 			}
 		});
