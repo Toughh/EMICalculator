@@ -15,7 +15,7 @@ import bankInterface.Bank;
 
 public class AbstractFactoryDesignPattern {
 	
-	static JLabel bankSelectLbl, bankLoanLbl, bankRateLbl, bankLoanAmtLbl, tenureLbl, calculatedEMILbl;
+	static JLabel bankSelectLbl, bankLoanLbl, bankRateLbl, bankLoanAmtLbl, tenureLbl, calculatedEMILbl, totalInterestLbl;
 	static JTextField bankRateTxt, bankLoanAmtTxt, tenureTxt;
 	static String bankSelect[] = {"AXIS", "IDBI", "ICICI", "HDFC", "SBI"};
 	static String loanSelect[] = {"Home", "Education", "Business"};
@@ -31,6 +31,7 @@ public class AbstractFactoryDesignPattern {
 		tenureLbl = new JLabel("Tenure: ");
 		submitBtn = new JButton();
 		calculatedEMILbl = new JLabel();
+		totalInterestLbl = new JLabel();
 		
 		JComboBox<String> bankSelectTxt = new JComboBox<String>(bankSelect);
 		JComboBox<String> bankLoanTxt = new JComboBox<String>(loanSelect);
@@ -55,6 +56,8 @@ public class AbstractFactoryDesignPattern {
 		submitBtn.setBounds(270, 270, 100, 30);
 		calculatedEMILbl.setBounds(130, 310, 500, 30);
 		calculatedEMILbl.setForeground(Color.MAGENTA);
+		totalInterestLbl.setBounds(130, 330, 500, 30);
+		totalInterestLbl.setForeground(Color.MAGENTA);
 		
 		frame.add(bankSelectLbl);
 		frame.add(bankSelectTxt);
@@ -69,6 +72,7 @@ public class AbstractFactoryDesignPattern {
 		frame.add(submitBtn);
 		
 		frame.add(calculatedEMILbl);
+		frame.add(totalInterestLbl);
 		
 		frame.setSize(1000, 600);
 		frame.setLayout(null);
@@ -95,8 +99,10 @@ public class AbstractFactoryDesignPattern {
 				AbstractFactory loanFactory = FactoryProducer.getAbstractFactory("Loan");  
 		        Loan l=loanFactory.getLoan(loanName);  
 		        l.getInterestRate(rate);  
-		        String result = "EMI would be " +l.calculateLoanAmount(loanAmount, years)+ " that need to be paid by "+years+" years.";
-		        calculatedEMILbl.setText(result);
+		        String EMI = "EMI would be " +l.calculateLoanAmount(loanAmount, years)+ " that need to be paid by "+years+" years.";
+		        calculatedEMILbl.setText(EMI);
+		        String TotalInterestPaid = "Total Interest Paid: "+l.calculateTotalInterestPayble(loanAmount, years);
+		        totalInterestLbl.setText(TotalInterestPaid);
 		        reset();
 			}
 
